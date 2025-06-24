@@ -9,6 +9,8 @@ flask-sqlalchemy = "*"
 flask-migrate = "*"
 flask-jwt-extended = "*"
 psycopg2-binary = "*"
+sqlalchemy-serializer = "*"
+flask-bycrpt = "*"
 
 [dev-packages]
 
