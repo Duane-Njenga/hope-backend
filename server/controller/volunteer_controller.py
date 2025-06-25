@@ -1,5 +1,5 @@
 from flask import Blueprint, make_response, jsonify, request
-from models import User
+from server.models import User
 from flask_restful import Resource
 
 

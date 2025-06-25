@@ -1,4 +1,4 @@
-from config import db, bcrypt
+from server.config import db, bcrypt
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
 

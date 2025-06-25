@@ -1,5 +1,5 @@
 from flask import Blueprint, make_response, jsonify, request
-from models import User
+from server.models import User
 from flask_restful import Resource
 
 
@@ -11,3 +11,7 @@ class Users(Resource):
         response = make_response(jsonify(users), 200)
 
         return response
+    
+    def post(self):
+        data = request.get_json()
+        print(data)

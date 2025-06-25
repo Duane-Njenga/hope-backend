@@ -1,5 +1,5 @@
 from flask import Blueprint, make_response, jsonify, request
-from models import Donation
+from server.models import Donation
 from flask_restful import Resource
 
 

@@ -1,13 +1,21 @@
 #!/usr/bin/env python3
-from models import User
-from controller import Donations, Users
+from flask import Flask
+from server.models import User, Donation, Volunteer, Project
+from server.controller import Donations, Users
 from flask import request, session, make_response,jsonify
 from flask_restful import Resource
+from server.config import db, api, DATABASE_URI, migrate,bcrypt
 
-from config import app, db, api
+app = Flask(__name__)
+app.secret_key = b'Y\xf1Xz\x00\xad|eQ\x80t \xca\x1a\x10K'
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.json.compact = False
 
-with app.app_context():
-    db.create_all()
+db.init_app(app)
+migrate.init_app(app, db)
+bcrypt.init_app(app)
+api.init_app(app)
 
 class Signup(Resource):
     def post(self):
@@ -78,9 +86,13 @@ class Logout(Resource):
         return make_response(jsonify({"error":"User is not logged in"}), 401)
  
 
-
-        
-
+class Index(Resource):
+    def get(self):
+        response = make_response(jsonify({"message":"Hope Connect backend is running"}),200)
+        print(response)
+        print("Index")
+        # return response
+api.add_resource(Index,"/")
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Login, '/login', endpoint='login')

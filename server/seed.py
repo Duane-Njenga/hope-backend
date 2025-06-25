@@ -1,31 +1,29 @@
-from app import app
-from config import db
-from models.user import User
-from models.donation import Donation
+from server.app import app
+from server.config import db
+from server.models.user import User
+from server.models.donation import Donation
 from datetime import datetime
 from faker import Faker
 
 fake = Faker()
 
 with app.app_context():
-    print("Creating database tables...")
-    db.create_all()
-
     print("Seeding database...")
 
-    Donation.query.delete()
-    User.query.delete()
-    db.session.commit()
+    # Optional: Reset the tables completely
+    db.drop_all()
+    db.create_all()
 
+    # Create Users
     user1 = User(
-        email= fake.email(),
+        email=fake.email(),
         first_name=fake.unique.first_name(),
         last_name=fake.last_name()
     )
-    user1.password_hash = "password123" 
+    user1.password_hash = "password123"
 
     user2 = User(
-        email= fake.email(),
+        email=fake.email(),
         first_name=fake.unique.first_name(),
         last_name=fake.last_name()
     )

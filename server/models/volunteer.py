@@ -1,12 +1,10 @@
 from flask import session
-from config import db
+from server.config import db
 from datetime import datetime
 from sqlalchemy_serializer import SerializerMixin
 
 class Volunteer(db.Model, SerializerMixin):
-    __tablename__ = 'donations'
-    serialize_rules = ("-user.donations",)
-
+    __tablename__ = 'volunteers'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.DateTime, default=datetime.now)
