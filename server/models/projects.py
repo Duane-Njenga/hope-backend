@@ -1,0 +1,13 @@
+from config import db
+from datetime import datetime
+from sqlalchemy_serializer import SerializerMixin
+
+class Project(db.Model, SerializerMixin):
+    __tablename__ = 'projects'
+    serialize_rules = ("-user.donations",)
+
+    id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.String, nullable=False)
+    date = db.Column(db.DateTime, default=datetime.now)
+    description = db.Column(db.String, nullable=False)
+    

@@ -1,4 +1,3 @@
-from .donation_controller import donations_bp
-from .user_controller import users_bp
+from .donation_controller import Donations
+from .user_controller import Users
 
-blueprints = [donations_bp,users_bp]

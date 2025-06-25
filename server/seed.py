@@ -1,21 +1,34 @@
-from server.app import app
-from server.config import db
-from server.models.user import User
-from server.models.donation import Donation
+from app import app
+from config import db
+from models.user import User
+from models.donation import Donation
 from datetime import datetime
+from faker import Faker
+
+fake = Faker()
 
 with app.app_context():
+    print("Creating database tables...")
+    db.create_all()
+
     print("Seeding database...")
 
-    # Optional: Clear existing data
     Donation.query.delete()
     User.query.delete()
+    db.session.commit()
 
-    # Create Users
-    user1 = User(email="john@example.com")
-    user1.password_hash = "password123"
+    user1 = User(
+        email= fake.email(),
+        first_name=fake.unique.first_name(),
+        last_name=fake.last_name()
+    )
+    user1.password_hash = "password123" 
 
-    user2 = User(email="jane@example.com")
+    user2 = User(
+        email= fake.email(),
+        first_name=fake.unique.first_name(),
+        last_name=fake.last_name()
+    )
     user2.password_hash = "securepass"
 
     db.session.add_all([user1, user2])
@@ -25,7 +38,6 @@ with app.app_context():
     donation1 = Donation(
         type="money",
         group="Community Fund",
-        details="0712345678",
         phone_number="0712345678",
         amount=1000,
         user_id=user1.id,
