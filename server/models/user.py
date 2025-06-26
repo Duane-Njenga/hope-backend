@@ -12,6 +12,7 @@ class User(db.Model, SerializerMixin):
     last_name = db.Column(db.String)
     email = db.Column(db.String, nullable=False, unique=True)
     _password_hash = db.Column(db.String)
+    role = db.Column(db.String, default="user")
     
     donations = db.relationship('Donation', backref='user', lazy=True)
 

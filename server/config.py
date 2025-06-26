@@ -2,12 +2,12 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_bcrypt import Bcrypt
-from flask_restful import Api
+from flask_jwt_extended import JWTManager
 
 db = SQLAlchemy()
 migrate = Migrate()
 bcrypt = Bcrypt()
-api = Api()
+jwt = JWTManager()
 
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))

@@ -20,4 +20,3 @@ migrations/
 *.egg
 *.coverage
 *.cache
-instance/
