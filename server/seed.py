@@ -8,7 +8,28 @@ import random
 fake = Faker()
 
 donation_types = ["Money", "Clothes", "Food", "Other"]
-project_types = ["Health", "Education", "Environment", "Community", "Emergency"]
+projects_data = [
+  {
+    "project_type": "Health",
+    "image": "https://images.unsplash.com/photo-1588776814546-ec7d7f3dbdd5?auto=format&fit=crop&w=1170&q=80"
+  },
+  {
+    "project_type": "Education",
+    "image": "https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=1170&q=80"
+  },
+  {
+    "project_type": "Environment",
+    "image": "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=1170&q=80"
+  },
+  {
+    "project_type": "Community",
+    "image": "https://images.unsplash.com/photo-1581578016310-4fce7f2b1d44?auto=format&fit=crop&w=1170&q=80"
+  },
+  {
+    "project_type": "Emergency",
+    "image": "https://images.unsplash.com/photo-1605733160314-4ce5f1c56d8b?auto=format&fit=crop&w=1170&q=80"
+  }
+]
 
 with app.app_context():
     print("Seeding database...")
@@ -90,18 +111,20 @@ with app.app_context():
 
     # Create Projects
     print("Creating Projects...")
-
+    project_images = []
     projects = []
-    for _ in range(5):
+    for item in projects_data:
         project = Project(
-            type=random.choice(project_types),
-            description=fake.text(max_nb_chars=150)
+            type=item["project_type"],
+            image_url=item["image"],
+            description=fake.text(max_nb_chars=150),
+            date=fake.date_between(start_date="today", end_date="+1y")
+
         )
         projects.append(project)
 
     db.session.add_all(projects)
     db.session.commit()
-
     # Create Volunteers (Separate from Users)
     print("Creating Volunteers...")
     volunteers = []

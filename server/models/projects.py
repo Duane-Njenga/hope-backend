@@ -10,4 +10,5 @@ class Project(db.Model, SerializerMixin):
     type = db.Column(db.String, nullable=False)
     date = db.Column(db.DateTime, default=datetime.now)
     description = db.Column(db.String, nullable=False)
+    image_url = db.Column(db.String, nullable=False)
     
