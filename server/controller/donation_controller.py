@@ -6,13 +6,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 donations_bp = Blueprint('donations', __name__, url_prefix='/donations')
 
 @donations_bp.route('', methods=['GET'])
-@jwt_required()
 def get_donations():
-
-    current_user = get_jwt_identity()
-    if current_user["role"] != "admin":
-        return jsonify({"error": "Unauthorised User"}), 422
-
 
     donations = [donation.to_dict() for donation in Donation.query.all()]
     return jsonify(donations), 200

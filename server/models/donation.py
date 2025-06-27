@@ -14,3 +14,4 @@ class Donation(db.Model, SerializerMixin):
     amount = db.Column(db.Integer)
     user_id =db.Column(db.Integer, db.ForeignKey("users.id"))
     
+    user = db.relationship('User', back_populates='donations')

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from server.config import db, DATABASE_URI, migrate, bcrypt, jwt
 from server.controller import blueprints
 from flask_cors import CORS
@@ -20,7 +20,7 @@ migrate.init_app(app, db)
 bcrypt.init_app(app)
 jwt.init_app(app)
 
-CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}}, supports_credentials=True)
+CORS(app, origins="*", supports_credentials=True)
 
 for blueprint in blueprints:
     app.register_blueprint(blueprint)

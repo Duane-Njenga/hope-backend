@@ -8,7 +8,7 @@ projects_bp = Blueprint('projects', __name__, url_prefix='/projects')
 
 @projects_bp.route('', methods=['GET'])
 def get_projects():
-
+    
     projects = [project.to_dict() for project in Project.query.all()]
     return jsonify(projects), 200
 

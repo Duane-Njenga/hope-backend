@@ -5,16 +5,21 @@ from sqlalchemy_serializer import SerializerMixin
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ("-donations.user",)
+    serialize_rules = (
+        "-donations.user",  
+        "-volunteer_signups.user",  
+        "-_password_hash",  
+    )
 
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String)
-    last_name = db.Column(db.String)
+    first_name = db.Column(db.String, nullable=False)
+    last_name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
     _password_hash = db.Column(db.String)
     role = db.Column(db.String, default="user")
     
-    donations = db.relationship('Donation', backref='user', lazy=True)
+    donations = db.relationship('Donation', back_populates='user', lazy=True)
+    volunteer_signups = db.relationship('Volunteer', back_populates='user', lazy=True)
 
     @hybrid_property
     def password_hash(self):
