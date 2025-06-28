@@ -39,12 +39,10 @@ def login():
 
     email = data.get('email')
     password = data.get('password')
-    print(email, password)
     user = User.query.filter_by(email=email).first()
 
     if not user or not user.authenticate(password):
         return jsonify({'msg': 'Invalid credentials'}), 401
-    user_response = {"id":user.id, email:user.email,"role":user.role}
 
 
     access_token = create_access_token(identity={
@@ -56,7 +54,9 @@ def login():
 
     response = make_response(jsonify({
         "access_token": access_token,
-        **user_response
+        'id': user.id,
+        'email': user.email,
+        'role': user.role
     }), 200)
     
     return response
@@ -79,15 +79,13 @@ def logout():
 @auth_bp.route('/firebase-login', methods=['POST'])
 def firebase_login():
     data = request.get_json()
-    email = data.get('mail')  # 'mail' comes from your frontend fetch body
+    email = data.get('mail')  
 
     if not email:
         return jsonify({'msg': 'Email is required'}), 400
 
-    # Check if user exists
     user = User.query.filter_by(email=email).first()
 
-    # Optional: Auto-register user if not found
     if not user:
         user = User(email=email, first_name="Firebase", last_name="Login", role="user")
         db.session.add(user)

@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from server.models import Project
 from server.config import db
 from flask_jwt_extended import jwt_required, get_jwt_identity
+import json
 
 
 projects_bp = Blueprint('projects', __name__, url_prefix='/projects')
@@ -13,13 +14,8 @@ def get_projects():
     return jsonify(projects), 200
 
 @projects_bp.route('', methods=['POST'])
-@jwt_required()
 def create_project():
-
-    current_user = get_jwt_identity()
-    if current_user["role"] != "admin":
-        return jsonify({"error": "Unauthorised User"}), 422
-       
+     
     data = request.get_json()
     if not data:
         return jsonify({"error": "Missing project data"}), 422
