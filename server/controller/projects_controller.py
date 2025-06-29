@@ -25,6 +25,7 @@ def create_project():
             type=data["type"],
             description=data["description"],
             date = data["date"],
+            image_url=data["image_url"]
         )
         
         db.session.add(new_project)

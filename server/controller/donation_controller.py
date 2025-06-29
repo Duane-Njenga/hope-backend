@@ -21,8 +21,9 @@ def create_donation():
         return jsonify({"error": "Missing donation data"}), 422
     
     try:
-        if current_user["user_id"]:
-            user = User.query.filter_by(id=current_user["user_id"]).first()
+        user_id = current_user.get("id")
+        if user_id:
+            user = User.query.filter_by(id=user_id).first()
             if not user:
                 return jsonify({"error": "User not found"}), 404
 
@@ -32,7 +33,7 @@ def create_donation():
             details=data.get("details", ""),
             phone_number=data.get("phone_number"),
             amount=data.get("amount"),
-            user_id=current_user["user_id"]
+            user_id=user_id
         )
         
         db.session.add(new_donation)

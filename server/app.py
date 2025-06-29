@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from flask import Flask, jsonify, request
-from server.config import db, DATABASE_URI, migrate, bcrypt, jwt
+import os
+from server.config import db, DATABASE_URI, migrate, bcrypt, jwt, JWT_SECRET_KEY, JWT_ACCESS_TOKEN_EXPIRES
 from server.controller import blueprints
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -15,6 +16,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config["JWT_TOKEN_LOCATION"] = ["headers"]
 app.json.compact = False
+
+app.config['JWT_SECRET_KEY'] = JWT_SECRET_KEY
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = JWT_ACCESS_TOKEN_EXPIRES
+
 
 db.init_app(app)
 migrate.init_app(app, db)
