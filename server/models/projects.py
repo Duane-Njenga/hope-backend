@@ -1,5 +1,5 @@
 from server.config import db
-from datetime import datetime
+from datetime import datetime, date
 from sqlalchemy_serializer import SerializerMixin
 
 class Project(db.Model, SerializerMixin):
@@ -9,7 +9,7 @@ class Project(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String, nullable=False)  
-    date = db.Column(db.DateTime, default=datetime.now)
+    date = db.Column(db.Date, default=date.today)
     description = db.Column(db.String, nullable=False)
     image_url = db.Column(db.String, nullable=False)
 

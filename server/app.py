@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from flask import Flask, jsonify, request
 import os
-from server.config import db, DATABASE_URI, migrate, bcrypt, jwt, JWT_SECRET_KEY, JWT_ACCESS_TOKEN_EXPIRES
+from server.config import db, DATABASE_URI, migrate, bcrypt, jwt,swagger, JWT_SECRET_KEY, JWT_ACCESS_TOKEN_EXPIRES
 from server.controller import blueprints
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -11,6 +11,7 @@ load_dotenv()
 
 
 app = Flask(__name__)
+app.debug = True
 app.secret_key = b'Y\xf1Xz\x00\xad|eQ\x80t \xca\x1a\x10K'
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -25,8 +26,11 @@ db.init_app(app)
 migrate.init_app(app, db)
 bcrypt.init_app(app)
 jwt.init_app(app)
+swagger.init_app(app)
 
-CORS(app, origins="*", supports_credentials=True)
+# CORS(app, origins="*",allow_headers="*", supports_credentials=True)
+frontend_url = "https://hope-connect-6j9n.vercel.app"
+CORS(app, origins=[frontend_url], supports_credentials=True, methods=["GET", "POST", "PUT", "DELETE", "PATCH"])
 
 for blueprint in blueprints:
     app.register_blueprint(blueprint)
@@ -34,6 +38,16 @@ for blueprint in blueprints:
 
 @app.route('/')
 def index():
+    """
+    A simple Hello World endpoint
+    ---
+    responses:
+      200:
+        description: Returns Hello World message
+        examples:
+          application/json: {"message": "Hello World"}
+    """
+
     return jsonify({"message": "Hope Connect backend is running"}), 200
 
 
